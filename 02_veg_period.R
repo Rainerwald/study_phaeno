@@ -169,6 +169,11 @@ out <-paste(G$n_script,"VEG.rda",sep="-");
 save(VEG,file = file.path(G$d_out1,out));
 
 
+
+# SAVE -----------------------------------------------------------
+out <-paste(G$n_script,"_image.rda",sep="-");
+save.image(file = file.path(G$d_out1,out));
+
 # CLEAN ---------------------------------------------------
 rm(list = ls());  gc()
 cat("\014")
