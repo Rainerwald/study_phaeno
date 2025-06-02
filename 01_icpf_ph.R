@@ -66,8 +66,8 @@ qq <-paste("SELECT * FROM information_schema.tables WHERE table_schema ='", C$s1
 aa <- dbSendQuery(C$pg, statement=qq); 
 bb <- fetch(aa, -1); tt <-bb$table_name; tt <-tt[order(tt)]; cbind(tt);
 dbGetQuery(C$pg,paste("SET search_path TO",C$s1)); 
+d_event <-dbReadTable(C$pg, "d_event"); 
 d_event_score <-dbReadTable(C$pg, "d_event_score"); 
-ph_phi <-dbReadTable(C$pg, "ph_phi"); 
 
 # LOOP plot ------------------------------------------------------------------
 ll <-levels(as.factor(ph_plp$code_plot))
@@ -83,12 +83,12 @@ for(ii in 1:length(ll))
     ### loop score
     pp <-paste0(c(1:5),".0");
     pp <-c(1:5); # scorte as integer
-    jj <-2;
+    jj <-1;
     for(jj in 1:length(pp))
     {
       dd <-cc[cc$code_event_score%in%pp[jj],];
       ### ex duplicated
-      dd <-dd[order(dd$date_observation),];
+      dd <-dd[order(dd$date_observation,decreasing = F),];
       dd <-dd[duplicated(paste0(dd$survey_year,dd$tree_number,dd$code_event_score))==F,];
       ### y
       dd$y <-as.integer(format(dd$date_observation,"%j")); 
